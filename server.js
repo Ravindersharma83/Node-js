@@ -1,8 +1,10 @@
 const express = require("express");
 const path = require("path");
 
-const app = express();
+const apiKeyMiddleware = require("./middleware/apiKey");
+const expressRouter = require("./router/index");
 
+const app = express();
 const PORT = process.env.PORT || 3000;
 
 // app.get('/', (req, res) => {
@@ -14,7 +16,16 @@ const PORT = process.env.PORT || 3000;
 // })
 
 // Static routing using static express middleware
-app.use(express.static('public'));
+// app.use(express.static('public'));
+
+
+
+// 3. Global middleware for all routes
+app.use(apiKeyMiddleware);
+// Express router
+app.use(expressRouter);
+
+
 
 app.listen(PORT, () => {
     console.log(`listening on PORT ${PORT}`);
